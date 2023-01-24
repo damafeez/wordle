@@ -42,7 +42,7 @@ const squareStates = computed(() => {
   <Square
     :input="input[i]"
     :state="state"
-    :key="`${state} ${i}`"
+    :key="i"
     v-for="(state, i) in squareStates"
   />
 </template>

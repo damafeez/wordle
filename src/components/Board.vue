@@ -1,8 +1,9 @@
 <script setup>
-import { onBeforeUnmount, reactive, ref } from 'vue'
+import { nextTick, onBeforeUnmount, reactive, ref } from 'vue'
+import words from '../words'
 import Row from './Row.vue'
 
-const correctWord = 'apple'
+const correctWord = words[Math.floor(Math.random() * words.length)]
 
 const numColumns = correctWord.length
 const numRows = 6
@@ -11,11 +12,18 @@ const inputs = reactive(Array.from({ length: numRows }, () => ''))
 // currentRow can be 1 more than available rows
 // currentRow, apart from denoting the 'current row', also denotes that previous rows have been checked
 const currentRow = ref(0)
+const won = ref(false)
 
 const onKeyDown = (e) => {
   const { key, which } = e
-  // no more row space or special input, disallow input
-  if (currentRow.value >= numRows || e.ctrlKey || e.metaKey || e.shiftKey) {
+  // won or no more row space or special input, disallow input
+  if (
+    won.value ||
+    currentRow.value >= numRows ||
+    e.ctrlKey ||
+    e.metaKey ||
+    e.shiftKey
+  ) {
     return
   }
   const inputLength = inputs[currentRow.value].length
@@ -24,7 +32,14 @@ const onKeyDown = (e) => {
   if (which >= 65 && which <= 90 && inputLength < numColumns) {
     inputs[currentRow.value] += key
   } else if (inputLength === numColumns && key === 'Enter') {
-    currentRow.value++
+    if (words.includes(inputs[currentRow.value])) {
+      if (inputs[currentRow.value] === correctWord) {
+        won.value = true
+        nextTick().then(() => alert("Hurray! You're a winner."))
+      }
+
+      currentRow.value++
+    } else alert('Word not found.')
   } else if (inputLength && key === 'Backspace') {
     inputs[currentRow.value] = inputs[currentRow.value].slice(0, -1)
   }
