@@ -22,6 +22,8 @@ const onKeyPress = ({ key, which }) => {
     inputs[currentRow.value] += key
   } else if (inputLength === numColumns && key === 'Enter') {
     currentRow.value++
+  } else if (inputLength && key === 'Backspace') {
+    inputs[currentRow.value] = inputs[currentRow.value].slice(0, -1)
   }
 }
 
