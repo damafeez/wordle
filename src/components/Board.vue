@@ -1,32 +1,42 @@
 <script setup>
-import { reactive } from 'vue'
-import Square from './Square.vue'
+import { onBeforeUnmount, reactive, ref, watch } from 'vue'
+import Row from './Row.vue'
 
 const correctWord = 'apple'
-const shouldValidate = true
 
 const columns = correctWord.length
 const rows = 6
 
 const inputs = reactive(Array.from({ length: rows }, () => ''))
+const currentRow = ref(0)
+const shouldValidate = ref(false)
 
-// test
-inputs[0] = 'lemon'
-inputs[1] = 'axles'
+const onKeyPress = ({ key, which }) => {
+  if (which >= 65 && which <= 90 && inputs[currentRow.value].length < columns) {
+    inputs[currentRow.value] += key
+  } else if (inputs[currentRow.value].length === columns && key === 'Enter') {
+    shouldValidate.value = true
+    if (currentRow.value < rows - 1) currentRow.value++
+  }
+}
+
+watch(currentRow, () => (shouldValidate.value = false))
+
+document.addEventListener('keydown', onKeyPress)
+onBeforeUnmount(() => document.removeEventListener('keydown', onKeyPress))
 </script>
 
 <template>
   <div class="board">
-    <template :key="i" v-for="(_, i) in rows">
-      <Square
-        :input="inputs[i][j]"
-        :index="j"
-        :correct-word="correctWord"
-        :should-validate="shouldValidate"
-        :key="`${j} ${i}`"
-        v-for="(_, j) in columns"
-      />
-    </template>
+    <Row
+      :input="inputs[row]"
+      :correct-word="correctWord"
+      :should-validate="
+        currentRow > row || (currentRow === row && shouldValidate)
+      "
+      :key="row"
+      v-for="(_, row) in rows"
+    />
   </div>
 </template>
 

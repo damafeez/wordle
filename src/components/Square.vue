@@ -1,24 +1,9 @@
 <script setup>
-import { computed } from 'vue'
-
-const props = defineProps({
+defineProps({
   input: {
     default: '',
   },
-  correctWord: String,
-  index: Number,
-  shouldValidate: {
-    default: false,
-  },
-})
-
-const state = computed(() => {
-  if (!props.input) return 'empty'
-  if (!props.shouldValidate) return 'neutral'
-  if (props.input === props.correctWord[props.index]) return 'correct'
-  if (props.correctWord.includes(props.input)) return 'found'
-
-  return 'wrong'
+  state: String,
 })
 </script>
 
