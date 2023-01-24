@@ -12,9 +12,12 @@ const inputs = reactive(Array.from({ length: numRows }, () => ''))
 // currentRow, apart from denoting the 'current row', also denotes that previous rows have been checked
 const currentRow = ref(0)
 
-const onKeyPress = ({ key, which }) => {
-  // no more row space, disallow input
-  if (currentRow.value >= numRows) return
+const onKeyDown = (e) => {
+  const { key, which } = e
+  // no more row space or special input, disallow input
+  if (currentRow.value >= numRows || e.ctrlKey || e.metaKey || e.shiftKey) {
+    return
+  }
   const inputLength = inputs[currentRow.value].length
 
   // alphabet and row has available square space
@@ -27,8 +30,8 @@ const onKeyPress = ({ key, which }) => {
   }
 }
 
-document.addEventListener('keydown', onKeyPress)
-onBeforeUnmount(() => document.removeEventListener('keydown', onKeyPress))
+document.addEventListener('keydown', onKeyDown)
+onBeforeUnmount(() => document.removeEventListener('keydown', onKeyDown))
 </script>
 
 <template>
