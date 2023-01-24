@@ -1,26 +1,29 @@
 <script setup>
-import { onBeforeUnmount, reactive, ref, watch } from 'vue'
+import { onBeforeUnmount, reactive, ref } from 'vue'
 import Row from './Row.vue'
 
 const correctWord = 'apple'
 
-const columns = correctWord.length
-const rows = 6
+const numColumns = correctWord.length
+const numRows = 6
 
-const inputs = reactive(Array.from({ length: rows }, () => ''))
+const inputs = reactive(Array.from({ length: numRows }, () => ''))
+// currentRow can be 1 more than available rows
+// currentRow, apart from denoting the 'current row', also denotes that previous rows have been checked
 const currentRow = ref(0)
-const shouldValidate = ref(false)
 
 const onKeyPress = ({ key, which }) => {
-  if (which >= 65 && which <= 90 && inputs[currentRow.value].length < columns) {
+  // no more row space, disallow input
+  if (currentRow.value >= numRows) return
+  const inputLength = inputs[currentRow.value].length
+
+  // alphabet and row has available square space
+  if (which >= 65 && which <= 90 && inputLength < numColumns) {
     inputs[currentRow.value] += key
-  } else if (inputs[currentRow.value].length === columns && key === 'Enter') {
-    shouldValidate.value = true
-    if (currentRow.value < rows - 1) currentRow.value++
+  } else if (inputLength === numColumns && key === 'Enter') {
+    currentRow.value++
   }
 }
-
-watch(currentRow, () => (shouldValidate.value = false))
 
 document.addEventListener('keydown', onKeyPress)
 onBeforeUnmount(() => document.removeEventListener('keydown', onKeyPress))
@@ -31,11 +34,9 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeyPress))
     <Row
       :input="inputs[row]"
       :correct-word="correctWord"
-      :should-validate="
-        currentRow > row || (currentRow === row && shouldValidate)
-      "
+      :should-check="currentRow > row"
       :key="row"
-      v-for="(_, row) in rows"
+      v-for="(_, row) in numRows"
     />
   </div>
 </template>
@@ -43,7 +44,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeyPress))
 <style scoped>
 .board {
   display: grid;
-  grid-template-columns: repeat(v-bind(columns), 1fr);
+  grid-template-columns: repeat(v-bind(numColumns), 1fr);
   gap: 0.5rem;
 }
 </style>

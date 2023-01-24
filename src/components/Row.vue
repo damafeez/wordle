@@ -7,7 +7,7 @@ const props = defineProps({
     default: '',
   },
   correctWord: String,
-  shouldValidate: {
+  shouldCheck: {
     default: false,
   },
 })
@@ -18,7 +18,7 @@ const squareStates = computed(() => {
 
   return inputArr.map((letter, index) => {
     if (!letter) return 'empty'
-    if (!props.shouldValidate) return 'neutral'
+    if (!props.shouldCheck) return 'neutral'
     if (letter === word[index]) {
       word[props.index] = undefined
       return 'correct'
