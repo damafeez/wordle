@@ -1,7 +1,9 @@
+<!-- eslint-disable prettier/prettier -->
 <script setup>
 import { nextTick, onBeforeUnmount, reactive, ref } from 'vue'
 import words from '../words'
 import Row from './Row.vue'
+import Keyboard from './Keyboard.vue'
 
 const correctWord = words[Math.floor(Math.random() * words.length)]
 
@@ -59,6 +61,8 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeyDown))
       v-for="(_, row) in numRows"
     />
   </div>
+
+  <Keyboard />
 </template>
 
 <style scoped>
