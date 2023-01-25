@@ -3,7 +3,7 @@ import { reactive, ref, computed, nextTick, onBeforeUnmount } from 'vue'
 import Board from './components/Board.vue'
 import Keyboard from './components/Keyboard.vue'
 import words from './words'
-import { computeRowState, isAlphabet } from './utils'
+import { computeRowState, isAlphabet, binarySearch } from './utils'
 
 const correctWord = words[Math.floor(Math.random() * words.length)]
 
@@ -33,7 +33,8 @@ const onKeyDown = (e) => {
   if (isAlphabet(e.key) && inputLength < numColumns) {
     inputs[currentRow.value] += e.key.toLowerCase()
   } else if (inputLength === numColumns && e.key === 'Enter') {
-    if (words.includes(inputs[currentRow.value])) {
+    // use binarySearch since words is already sorted
+    if (binarySearch(words, inputs[currentRow.value]) > -1) {
       if (inputs[currentRow.value] === correctWord) {
         gameState.value = 'won'
         nextTick().then(() => alert("Hurray! You're a winner."))
