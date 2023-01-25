@@ -3,7 +3,7 @@ import { reactive, ref, computed, nextTick, onBeforeUnmount } from 'vue'
 import Board from './components/Board.vue'
 import Keyboard from './components/Keyboard.vue'
 import words from './words'
-import { computeRowState } from './utils'
+import { computeRowState, isAlphabet } from './utils'
 
 const correctWord = words[Math.floor(Math.random() * words.length)]
 
@@ -23,7 +23,6 @@ const rows = computed(() =>
 )
 
 const onKeyDown = (e) => {
-  const { key, which } = e
   // won or no more row space or special input, disallow input
   if (
     won.value ||
@@ -37,9 +36,9 @@ const onKeyDown = (e) => {
   const inputLength = inputs[currentRow.value].length
 
   // alphabet and row has available square space
-  if (which >= 65 && which <= 90 && inputLength < numColumns) {
-    inputs[currentRow.value] += key
-  } else if (inputLength === numColumns && key === 'Enter') {
+  if (isAlphabet(e.key) && inputLength < numColumns) {
+    inputs[currentRow.value] += e.key.toLowerCase()
+  } else if (inputLength === numColumns && e.key === 'Enter') {
     if (words.includes(inputs[currentRow.value])) {
       if (inputs[currentRow.value] === correctWord) {
         won.value = true
@@ -48,7 +47,7 @@ const onKeyDown = (e) => {
 
       currentRow.value++
     } else alert('Word not found.')
-  } else if (inputLength && key === 'Backspace') {
+  } else if (inputLength && e.key === 'Backspace') {
     inputs[currentRow.value] = inputs[currentRow.value].slice(0, -1)
   }
 }
@@ -59,9 +58,9 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeyDown))
 
 <template>
   <main>
-    <h1>Wordle</h1>
+    <h1>WORDLE</h1>
     <Board :rows="rows" />
-    <Keyboard :rows="rows" />
+    <Keyboard @keydown="onKeyDown" :rows="rows" />
   </main>
 </template>
 

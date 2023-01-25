@@ -49,3 +49,8 @@ export const computeKeyboardState = (
 
   return result
 }
+
+export const isAlphabet = (s) =>
+  s.length === 1 &&
+  ((s.charCodeAt() >= 65 && s.charCodeAt() <= 90) || // uppercase character
+    (s.charCodeAt() >= 97 && s.charCodeAt() <= 122)) // lowercase character

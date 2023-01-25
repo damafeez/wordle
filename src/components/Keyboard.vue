@@ -5,12 +5,15 @@ import { computeKeyboardState } from '../utils'
 const keys = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
   ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-  ['back', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'enter'],
+  ['Backspace', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'Enter'],
 ]
 
 const props = defineProps({
   rows: Array,
 })
+
+const emit = defineEmits(['keydown'])
+const KeyboardEvent = window.KeyboardEvent.bind(window)
 
 const keyboardState = computed(() => computeKeyboardState(props.rows))
 </script>
@@ -19,6 +22,7 @@ const keyboardState = computed(() => computeKeyboardState(props.rows))
   <div class="keyboard">
     <div class="row" v-for="(keyList, i) in keys" :key="i">
       <button
+        @click="emit('keydown', new KeyboardEvent('keydown', { key }))"
         :class="[key, keyboardState[key]]"
         v-for="key in keyList"
         :key="key"
