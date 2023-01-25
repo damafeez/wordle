@@ -68,11 +68,15 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeyDown))
 main {
   padding-left: min(10rem, 10%);
   padding-right: min(10rem, 10%);
-  max-width: 800px;
+  max-width: 900px;
   margin: auto;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+main .board {
+  margin: 2rem 0 5rem;
 }
 </style>

@@ -35,13 +35,11 @@ const keyboardState = computed(() => computeKeyboardState(props.rows))
 
 <style scoped>
 .keyboard {
-  /* TODO: remove this */
-  margin-top: 4rem;
+  width: 100%;
 }
-
 .row {
   display: flex;
-  gap: 0.5rem;
+  gap: min(1.5%, 0.5rem);
   justify-content: space-between;
 }
 .row:not(:last-child) {
@@ -49,11 +47,11 @@ const keyboardState = computed(() => computeKeyboardState(props.rows))
 }
 
 .row:nth-child(2) button {
-  width: 4rem;
+  flex: 1 1 4rem;
 }
 
 button {
-  width: 3.5rem;
+  flex: 1 1 3.5rem;
   height: 3rem;
   border-radius: 4px;
   text-transform: capitalize;
@@ -65,7 +63,7 @@ button {
   justify-content: center;
   align-items: center;
 }
-button:is(.a, .l, .back, .enter) {
-  flex: 1;
+button:is(.a, .l, .Backspace, .Enter) {
+  flex-grow: 5;
 }
 </style>
