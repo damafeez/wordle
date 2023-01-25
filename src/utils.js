@@ -29,12 +29,21 @@ export const computeKeyboardState = (
   rows,
   hierarchy = ['correct', 'found', 'wrong']
 ) => {
+  const indexMap = hierarchy.reduce(
+    (prev, curr, i) => ({ ...prev, [curr]: i }),
+    {}
+  )
   const result = {}
   for (const row of rows) {
     if (row[0]?.state === 'empty') return result
 
     row.forEach(({ state, letter }) => {
-      result[letter] = state
+      if (
+        hierarchy.includes(state) &&
+        indexMap[state] < (indexMap[result[letter]] ?? Infinity)
+      ) {
+        result[letter] = state
+      }
     })
   }
 
