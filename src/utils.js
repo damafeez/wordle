@@ -24,3 +24,19 @@ export const computeRowState = (correctWord, input, shouldValidate) => {
     return { state: 'wrong', letter }
   })
 }
+
+export const computeKeyboardState = (
+  rows,
+  hierarchy = ['correct', 'found', 'wrong']
+) => {
+  const result = {}
+  for (const row of rows) {
+    if (row[0]?.state === 'empty') return result
+
+    row.forEach(({ state, letter }) => {
+      result[letter] = state
+    })
+  }
+
+  return result
+}

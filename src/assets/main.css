@@ -16,3 +16,22 @@ button {
   cursor: pointer;
   font-family: inherit;
 }
+
+:is(.keyboard button, .square).empty {
+  border: 2px solid #dee1e9;
+}
+:is(.keyboard button, .square).neutral {
+  border: 2px solid #a7adc0;
+}
+:is(.keyboard button, .square).wrong {
+  background: #a4aec4;
+  color: white;
+}
+:is(.keyboard button, .square).found {
+  background: #f3c237;
+  color: white;
+}
+:is(.keyboard button, .square).correct {
+  background: #79b851;
+  color: white;
+}

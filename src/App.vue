@@ -61,7 +61,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeyDown))
   <main>
     <h1>Wordle</h1>
     <Board :rows="rows" />
-    <Keyboard />
+    <Keyboard :rows="rows" />
   </main>
 </template>
 
