@@ -13,7 +13,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['keydown'])
-const w = window
+const handleButtonClick = (key) => {
+  emit('keydown', new KeyboardEvent('keydown', { key }))
+}
 
 const keyboardState = computed(() => computeKeyboardState(props.rows))
 </script>
@@ -22,7 +24,7 @@ const keyboardState = computed(() => computeKeyboardState(props.rows))
   <div class="keyboard">
     <div class="row" v-for="(keyList, i) in keys" :key="i">
       <button
-        @click="emit('keydown', new w.KeyboardEvent('keydown', { key }))"
+        @click="handleButtonClick(key)"
         :class="[key, keyboardState[key]]"
         v-for="key in keyList"
         :key="key"
