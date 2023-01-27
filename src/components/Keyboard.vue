@@ -48,11 +48,11 @@ const keyboardState = computed(() => computeKeyboardState(props.rows))
 }
 .row {
   display: flex;
-  gap: clamp(1px, 1vw, 0.5rem);
+  gap: clamp(1px, 0.5vw, 0.5rem);
   justify-content: space-between;
 }
 .row:not(:last-child) {
-  margin-bottom: 0.5rem;
+  margin-bottom: clamp(1px, 0.5vw, 0.5rem);
 }
 
 .row:nth-child(2) button {
