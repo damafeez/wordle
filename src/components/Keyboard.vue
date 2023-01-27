@@ -13,6 +13,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['keydown'])
+const largeScreen = window.innerWidth > 800
 const handleButtonClick = (key) => {
   emit('keydown', new KeyboardEvent('keydown', { key }))
 }
@@ -29,7 +30,13 @@ const keyboardState = computed(() => computeKeyboardState(props.rows))
         v-for="key in keyList"
         :key="key"
       >
-        {{ key === 'Backspace' ? '⌫' : key }}
+        {{
+          key === 'Backspace'
+            ? '⌫'
+            : !largeScreen && key === 'Enter'
+            ? '⏎'
+            : key
+        }}
       </button>
     </div>
   </div>
@@ -41,7 +48,7 @@ const keyboardState = computed(() => computeKeyboardState(props.rows))
 }
 .row {
   display: flex;
-  gap: min(1.5%, 0.5rem);
+  gap: clamp(1px, 1vw, 0.5rem);
   justify-content: space-between;
 }
 .row:not(:last-child) {
