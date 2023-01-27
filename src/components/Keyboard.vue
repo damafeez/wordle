@@ -71,6 +71,8 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  touch-action: manipulation;
 }
 button:is(.a, .l, .Backspace, .Enter) {
   flex-grow: 5;

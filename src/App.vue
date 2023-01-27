@@ -67,7 +67,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKeyDown))
 main {
   padding-left: clamp(4px, 1vw, 160px);
   padding-right: clamp(4px, 1vw, 160px);
-  max-width: clamp(800px, 50%, 1400px);
+  max-width: 700px;
   margin: auto;
 
   display: flex;
