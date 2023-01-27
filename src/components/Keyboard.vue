@@ -29,7 +29,7 @@ const keyboardState = computed(() => computeKeyboardState(props.rows))
         v-for="key in keyList"
         :key="key"
       >
-        {{ key }}
+        {{ key === 'Backspace' ? '⌫' : key }}
       </button>
     </div>
   </div>
@@ -67,5 +67,8 @@ button {
 }
 button:is(.a, .l, .Backspace, .Enter) {
   flex-grow: 5;
+}
+.Backspace {
+  font-size: 1.1rem;
 }
 </style>
